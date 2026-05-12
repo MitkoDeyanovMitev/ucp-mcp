@@ -1,0 +1,5 @@
+lancedb>=0.6.0
+pandas>=2.0.0
+requests>=2.31.0
+langchain-text-splitters>=0.2.0
+mcp>=1.0.0
