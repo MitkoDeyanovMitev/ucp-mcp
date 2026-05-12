@@ -30,7 +30,12 @@
       "url": "https://github.com/Universal-Commerce-Protocol/samples.git",
       "branch": "main",
       "include": ["**/*.js", "**/*.py", "**/*.ts", "**/*.md", "**/*.json"],
-      "exclude": ["**/node_modules/**", "**/.venv/**", "**/dist/**", "**/build/**"],
+      "exclude": [
+        "**/node_modules/**",
+        "**/.venv/**",
+        "**/dist/**",
+        "**/build/**"
+      ],
       "enabled": false
     },
     {
@@ -48,7 +53,12 @@
       "url": "https://github.com/Universal-Commerce-Protocol/js-sdk.git",
       "branch": "main",
       "include": ["**/*.js", "**/*.ts", "**/*.md"],
-      "exclude": ["**/node_modules/**", "**/test/**", "**/*.test.ts", "**/dist/**"],
+      "exclude": [
+        "**/node_modules/**",
+        "**/test/**",
+        "**/*.test.ts",
+        "**/dist/**"
+      ],
       "enabled": true
     },
     {

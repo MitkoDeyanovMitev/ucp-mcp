@@ -16,6 +16,6 @@ repos:
         
       - id: prettier
         name: Prettier Formatter
-        entry: npx prettier --write
+        entry: npx --registry=https://registry.npmjs.org/ prettier --write
         language: system
         types_or: [javascript, json, markdown]
