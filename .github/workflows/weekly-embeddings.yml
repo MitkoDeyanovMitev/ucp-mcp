@@ -1,0 +1,73 @@
+name: Weekly Vector Update Sync
+
+on:
+  schedule:
+    - cron: '0 0 * * 0' # Midnight every Sunday
+  workflow_dispatch: # Manual triggering
+
+jobs:
+  rebuild-databases:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+
+    - name: Install Python Dependencies
+      run: pip install -r requirements.txt
+
+    - name: Install Node Dependencies
+      run: npm install
+
+    - name: Cache Ollama Models Layer
+      id: cache-ollama
+      uses: actions/cache@v4
+      with:
+        path: ~/.ollama
+        key: ollama-polyglot-models-${{ runner.os }}
+
+    - name: Start Background Ollama Daemon
+      run: |
+        curl -fsSL https://ollama.com/install.sh | sh
+        ollama serve &
+        sleep 5
+        ollama pull nomic-embed-text
+        ollama pull embeddinggemma
+
+    - name: Rebuild Highly Concentrated Nomic Database Tables (Incremental Sync)
+      run: python3 src/generator/build_vector_databases.py --model nomic --incremental
+
+    - name: Rebuild High-Fidelity Gemma Database Tables (Incremental Sync)
+      run: python3 src/generator/build_vector_databases.py --model gemma --incremental
+
+    - name: Generate Automated Database Update Pull Request
+      uses: peter-evans/create-pull-request@v6
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: "chore: automated weekly polyglot vector database rebuild"
+        title: "🔄 Automated Weekly Vector Database Synchronization"
+        body: |
+          Automated continuous integration updates mapping active repository modifications into persistent high-fidelity LanceDB matrices.
+          
+          ### 🤖 Executed Pipelines
+          - Rebuilt highly concentrated code-syntax dense Nomic models (`embeddings/nomic/`)
+          - Rebuilt deep conceptual Gemma documentation vectors (`embeddings/gemma/`)
+          
+          Please review the modified database chunks before merging to ensure active client IDE standard I/O routing consistency.
+        branch: automated/vector-matrix-sync
+        base: main
+        labels: automated pr, database update
