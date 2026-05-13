@@ -1,0 +1,21 @@
+repos:
+  - repo: local
+    hooks:
+      - id: ruff-check
+        name: Ruff Linter
+        entry: .venv/bin/ruff check
+        language: system
+        types: [python]
+        args: [--fix]
+        
+      - id: ruff-format
+        name: Ruff Formatter
+        entry: .venv/bin/ruff format
+        language: system
+        types: [python]
+        
+      - id: prettier
+        name: Prettier Formatter
+        entry: npx --registry=https://registry.npmjs.org/ prettier --write
+        language: system
+        types_or: [javascript, json, markdown]

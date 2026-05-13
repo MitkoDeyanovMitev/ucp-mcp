@@ -1,0 +1,32 @@
+[
+  {
+    "id": "q1_general_capabilities",
+    "query": "what capabilities does UCP have ?",
+    "category": "Core Discovery",
+    "description": "Tests top-level semantic intent mapping for protocol capabilities summaries."
+  },
+  {
+    "id": "q2_cart_creation",
+    "query": "how do I create a shopping cart and add item quantities ?",
+    "category": "Cart Lifecycle",
+    "description": "Tests retrieval of specific LineItemCreateRequest schemas and payload structures."
+  },
+  {
+    "id": "q3_checkout_orchestration",
+    "query": "what are the possible status states during a checkout session flow ?",
+    "category": "Checkout Session",
+    "description": "Tests extraction of CheckoutResponseStatusSchema enum states (incomplete, ready_for_complete, etc.)."
+  },
+  {
+    "id": "q4_payment_instruments",
+    "query": "how to configure selected payment instruments and billing addresses ?",
+    "category": "Payment Handlers",
+    "description": "Tests precise spatial alignment for nested object arrays and address validation schemas."
+  },
+  {
+    "id": "q5_fulfillment_options",
+    "query": "how does the protocol evaluate available fulfillment destination options ?",
+    "category": "Logistics",
+    "description": "Tests high-dimensional mapping for logistical data layers and static expectation boundaries."
+  }
+]
