@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 import sys
-import os
 import argparse
+from pathlib import Path
 
 # Guarantee the project root directory is accessible in sys.path for direct script execution
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from src.generator.gemma_encoder import GemmaGenerator
-from src.generator.nomic_encoder import NomicGenerator
+from src.embeddings_generator.gemma_encoder import GemmaGenerator
+from src.embeddings_generator.nomic_encoder import NomicGenerator
 
 
 def main():

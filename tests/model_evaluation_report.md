@@ -17,15 +17,15 @@ Following the retirement of mock string-length baselines, this document provides
 
 ## 💾 1. Storage Footprint & Ingestion Performance
 
-Pre-compiling raw numerical float vectors into Apache Arrow database formats guarantees absolute zero-infrastructure portability for external runtime consumption. Below is the spatial sizing and generation benchmark for the complete source catalog (~850 files).
+Pre-compiling raw numerical float vectors into Apache Arrow database formats guarantees absolute zero-infrastructure portability for external runtime consumption. Below is the spatial sizing and generation benchmark for the complete source catalog (~942 files).
 
 | Vector Profile         | Target Dimensions | Rebuild Generation Time | Disk Storage Capacity | Batch Concurrency Layer                        |
 | :--------------------- | :---------------- | :---------------------- | :-------------------- | :--------------------------------------------- |
-| **`gemma`**            | 768               | **34.9 minutes**        | `274.66 MB`           | Sequential loop REST array calls               |
-| **`nomic`** _(Winner)_ | 768               | **4.7 minutes**         | **`32.09 MB`**        | Multi-threaded array pooling (`max_workers=2`) |
+| **`gemma`**            | 768               | **21.5 minutes**        | `63.02 MB`            | Multi-threaded array pooling (`max_workers=4`) |
+| **`nomic`** _(Winner)_ | 768               | **5.6 minutes**         | **`33.65 MB`**        | Multi-threaded array pooling (`max_workers=4`) |
 
 > [!TIP]
-> **Spatial Density Advantages**: Adjusting `nomic` segment parsing constraints to `chunk_size=4000` concentrates semantic chunks into fewer dense dataset groups. This achieves an incredible **8.5x space reduction** compared to `gemma`, keeping file distribution constraints extremely agile.
+> **Spatial Density & Formatting**: Gemma is configured with `chunk_size=1500` (generating 15,385 chunks) to comply with context length limits, while Nomic uses `chunk_size=4000` (generating 5,774 chunks). Since both models output identical `768` dimensions, the footprint difference is directly proportional to chunk counts, leaving both safely consolidated under GitHub's 100MB push limit.
 
 ---
 
@@ -37,11 +37,11 @@ Our automated test suite inside `tests/evaluation_queries.json` validates neares
 
 | Execution Query                                                                              | Evaluated Layer    | Latency            | Nearest Neighbor Distance | Retrieved Component File Context                                       | Natural Language Relevance Evaluation                                                                                        |
 | :------------------------------------------------------------------------------------------- | :----------------- | :----------------- | :------------------------ | :--------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------- |
-| **Q1: Protocol Discovery**<br>`"what capabilities does UCP have ?"`                          | `gemma`<br>`nomic` | 2.29s<br>**1.46s** | `0.878`<br>`258.525`      | `ucp: overview/index.md`<br>**`ucp: overview/index.md`**               | **Exceptional** (Extracts response rules)<br>**Outstanding** (Extracts native MCP capabilities map)                          |
-| **Q2: Cart Lifecycle**<br>`"create shopping cart and add item quantities ?"`                 | `gemma`<br>`nomic` | 0.93s<br>**0.92s** | `0.992`<br>`227.663`      | **`ucp: cart-mcp/index.md`**<br>**`ucp: cart/index.md`**               | **Flawless** (Targets `create_cart` input schema)<br>**Flawless** (Targets core `shopping.cart` capability)                  |
-| **Q3: Orchestration Flow**<br>`"status states during a checkout session flow ?"`             | `gemma`<br>`nomic` | 0.94s<br>**0.88s** | `0.682`<br>`190.016`      | **`ucp: checkout/index.md`**<br>`ucp: checkout/index.html`             | **Outstanding** (Extracts direct enum status values)<br>**Excellent** (Extracts stateless permalink flow context)            |
-| **Q4: Payment Fields**<br>`"configure selected payment instruments and billing addresses ?"` | `gemma`<br>`nomic` | 0.94s<br>**0.91s** | `0.878`<br>`215.194`      | **`ucp: embedded-checkout/index.md`**<br>**`ucp: reference/index.md`** | **Flawless** (Extracts selection state schema table)<br>**Flawless** (Extracts explicit payment handler layout)              |
-| **Q5: Logistical Operations**<br>`"evaluate available fulfillment destination options ?"`    | `gemma`<br>`nomic` | 0.93s<br>**0.92s** | `0.826`<br>`193.362`      | **`ucp: fulfillment/index.md`**<br>**`ucp: fulfillment/index.md`**     | **Exceptional** (Extracts generic fulfillment method list)<br>**Exceptional** (Extracts platform rendering responsibilities) |
+| **Q1: Protocol Discovery**<br>`"what capabilities does UCP have ?"`                          | `gemma`<br>`nomic` | 1.00s<br>**0.92s** | `0.741`<br>`258.525`      | `ucp: overview/index.md`<br>**`ucp: overview/index.md`**               | **Exceptional** (Extracts response rules)<br>**Outstanding** (Extracts native MCP capabilities map)                          |
+| **Q2: Cart Lifecycle**<br>`"create shopping cart and add item quantities ?"`                 | `gemma`<br>`nomic` | 0.97s<br>**0.89s** | `0.920`<br>`227.663`      | **`ucp: cart-mcp/index.md`**<br>**`ucp: cart/index.md`**               | **Flawless** (Targets `create_cart` input schema)<br>**Flawless** (Targets core `shopping.cart` capability)                  |
+| **Q3: Orchestration Flow**<br>`"status states during a checkout session flow ?"`             | `gemma`<br>`nomic` | 0.92s<br>**0.89s** | `0.532`<br>`189.885`      | **`ucp: checkout/index.md`**<br>`ucp: checkout/index.html`             | **Outstanding** (Extracts direct enum status values)<br>**Excellent** (Extracts stateless permalink flow context)            |
+| **Q4: Payment Fields**<br>`"configure selected payment instruments and billing addresses ?"` | `gemma`<br>`nomic` | 0.94s<br>**0.91s** | `0.921`<br>`215.194`      | **`ucp: embedded-checkout/index.md`**<br>**`ucp: reference/index.md`** | **Flawless** (Extracts selection state schema table)<br>**Flawless** (Extracts explicit payment handler layout)              |
+| **Q5: Logistics Operations**<br>`"evaluate available fulfillment destination options ?"`    | `gemma`<br>`nomic` | 0.93s<br>**0.93s** | `0.826`<br>`193.362`      | **`ucp: fulfillment/index.md`**<br>**`ucp: fulfillment/index.md`**     | **Exceptional** (Extracts generic fulfillment method list)<br>**Exceptional** (Extracts platform rendering responsibilities) |
 
 ---
 
@@ -78,7 +78,7 @@ server.onRequest(CallToolRequestSchema, async (request) => {
   const sidecarPath = path.resolve(
     rootDir,
     "src",
-    "generator",
+    "embeddings_generator",
     "lance_search_client.py",
   );
 

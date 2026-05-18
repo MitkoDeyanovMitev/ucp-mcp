@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 import sys
 import os
+from contextlib import redirect_stdout
 import lancedb
 from mcp.server.fastmcp import FastMCP
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
-from src.generator.gemma_encoder import GemmaGenerator
-from src.generator.nomic_encoder import NomicGenerator
+from src.embeddings_generator.gemma_encoder import GemmaGenerator
+from src.embeddings_generator.nomic_encoder import NomicGenerator
 
 mcp = FastMCP("ucp-mcp-python-server")
 
@@ -21,8 +22,11 @@ def migration_guide() -> str:
     return "Skill documentation guidelines not located."
 
 
+default_model = os.environ.get("UCP_MCP_MODEL", "nomic")
+
+
 @mcp.tool("query_ucp_context")
-def query_ucp_context(query_text: str, model: str = "nomic") -> str:
+def query_ucp_context(query_text: str, model: str = default_model) -> str:
     """Searches local persistent multi-repository distinct context tables natively in Python using semantic similarity math.
 
     Args:
@@ -116,7 +120,50 @@ def query_ucp_context(query_text: str, model: str = "nomic") -> str:
         return f"Error executing native Python cross-table semantic context lookup: {str(e)}"
 
 
+def run_startup_sync(model: str, skip_sync: bool):
+    if skip_sync:
+        print("Skipping startup embedding synchronization pass.", file=sys.stderr)
+        return
+
+    try:
+        if model == "gemma":
+            generator = GemmaGenerator()
+        else:
+            generator = NomicGenerator()
+
+        # Redirect all stdout to stderr to prevent corrupting MCP stdio stream
+        with redirect_stdout(sys.stderr):
+            generator.run(incremental=True)
+
+    except Exception as e:
+        print(
+            f"⚠️ Failed to run incremental embedding generator: {e}",
+            file=sys.stderr,
+        )
+
+
 def main():
+    model = os.environ.get("UCP_MCP_MODEL", "nomic")
+    skip_sync = os.environ.get("UCP_MCP_SKIP_SYNC") == "true"
+
+    if "--model" in sys.argv:
+        try:
+            idx = sys.argv.index("--model")
+            if idx + 1 < len(sys.argv):
+                model = sys.argv[idx + 1]
+                sys.argv.pop(idx + 1)
+            sys.argv.pop(idx)
+        except ValueError:
+            pass
+
+    if "--skip-sync" in sys.argv:
+        skip_sync = True
+        try:
+            sys.argv.remove("--skip-sync")
+        except ValueError:
+            pass
+
+    run_startup_sync(model, skip_sync)
     mcp.run()
 
 

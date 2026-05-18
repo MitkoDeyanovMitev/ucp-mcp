@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 import sys
-import os
+from pathlib import Path
 import json
 import argparse
 import lancedb
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
-from src.generator.gemma_encoder import GemmaGenerator
-from src.generator.nomic_encoder import NomicGenerator
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from src.embeddings_generator.gemma_encoder import GemmaGenerator
+from src.embeddings_generator.nomic_encoder import NomicGenerator
 
 
 def parse_args():
@@ -19,11 +19,11 @@ def parse_args():
 
 def main():
     args = parse_args()
-    base_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-    db_dir = os.path.join(base_root, "embeddings", args.model)
-    if not os.path.exists(db_dir):
-        db_dir = os.path.join(base_root, "run-data", args.model)
-        if not os.path.exists(db_dir):
+    base_root = Path(__file__).resolve().parents[2]
+    db_dir = base_root / "embeddings" / args.model
+    if not db_dir.exists():
+        db_dir = base_root / "run-data" / args.model
+        if not db_dir.exists():
             print(
                 json.dumps(
                     {"error": f"Database storage not found for model tier {args.model}"}
@@ -32,7 +32,7 @@ def main():
             return
 
     try:
-        db = lancedb.connect(db_dir)
+        db = lancedb.connect(str(db_dir))
         raw_tables = getattr(
             db, "list_tables", getattr(db, "table_names", lambda: [])
         )()

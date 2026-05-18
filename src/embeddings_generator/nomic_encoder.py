@@ -1,14 +1,17 @@
-import requests
+import logging
+from pathlib import Path
 from langchain_text_splitters import RecursiveCharacterTextSplitter, Language
 from .base_encoder import BaseEmbeddingGenerator
 
+logger = logging.getLogger("embeddings_generator.nomic")
 
-class GemmaGenerator(BaseEmbeddingGenerator):
+
+class NomicGenerator(BaseEmbeddingGenerator):
     def __init__(self):
-        super().__init__(model_name="gemma", dimensions=768)
+        super().__init__(model_name="nomic", dimensions=768)
 
     def _get_splitter(self, file_path: str):
-        ext = file_path.split(".")[-1].lower()
+        ext = Path(file_path).suffix.lower().lstrip(".")
         mapping = {
             "py": Language.PYTHON,
             "js": Language.JS,
@@ -20,6 +23,7 @@ class GemmaGenerator(BaseEmbeddingGenerator):
             "rs": Language.RUST,
         }
 
+        # Leverage Nomic's expanded context capacity to generate highly comprehensive code syntax arrays
         chunk_size = 4000
         chunk_overlap = 400
 
@@ -44,32 +48,30 @@ class GemmaGenerator(BaseEmbeddingGenerator):
         except Exception:
             words = content.split()
             return [
-                " ".join(words[i : i + 500])
-                for i in range(0, len(words), 500)
-                if " ".join(words[i : i + 500]).strip()
+                " ".join(words[i : i + 750])
+                for i in range(0, len(words), 750)
+                if " ".join(words[i : i + 750]).strip()
             ]
 
     def generate_vector(self, text: str, is_query: bool = False) -> list[float]:
-        import sys
-
+        # Apply Nomic Embed v1.5 task-specific instruction prefixes
         if is_query:
-            formatted_text = f"task: search result | query: {text}"
+            formatted_text = f"search_query: {text}"
         else:
-            formatted_text = f"title: none | text: {text}"
+            formatted_text = f"search_document: {text}"
 
         try:
-            resp = requests.post(
-                "http://localhost:11434/api/embeddings",
-                json={"model": "embeddinggemma", "prompt": formatted_text},
+            resp = self.session.post(
+                self.api_url,
+                json={"model": "nomic-embed-text", "prompt": formatted_text},
                 timeout=120,
             )
             resp.raise_for_status()
             res = resp.json()
             if "embedding" in res:
                 if not hasattr(self, "_logged_success"):
-                    print(
-                        f"Successfully generated authentic Gemma vector arrays (dim: {len(res['embedding'])}) via Ollama binding.",
-                        file=sys.stderr,
+                    logger.info(
+                        f"Successfully generated authentic Nomic vector arrays (dim: {len(res['embedding'])}) via Ollama binding."
                     )
                     self._logged_success = True
                 return res["embedding"]
@@ -87,7 +89,7 @@ class GemmaGenerator(BaseEmbeddingGenerator):
     ) -> list[list[float]]:
         from concurrent.futures import ThreadPoolExecutor
 
-        with ThreadPoolExecutor(max_workers=1) as executor:
+        with ThreadPoolExecutor(max_workers=4) as executor:
             return list(
                 executor.map(
                     lambda t: self.generate_vector(t, is_query=is_query), texts

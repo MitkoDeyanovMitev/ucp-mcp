@@ -5,7 +5,7 @@ A highly responsive, zero-infrastructure Model Context Protocol (MCP) server lev
 To support deep enterprise-grade data processing, `ucp-mcp` deploys a **Hybrid (Polyglot) Architecture**:
 
 1. **Ultra-Fast Server Runtime (`src/mcp/index.js`):** Built in pure Node.js/ES Modules. Provides instant startup (~50ms) and dynamic text-to-vector resolution bridging without heavy database bindings.
-2. **Object-Oriented Generator Suite (`src/generator/`):** Built in Python. Uses an extensible class hierarchy (`BaseEmbeddingGenerator` in `base_encoder.py`) encapsulating multi-repository shallow cloning, regex-driven boilerplate elimination, task instruction prefixing, and highly concentrated table optimization.
+2. **Object-Oriented Generator Suite (`src/embeddings_generator/`):** Built in Python. Uses an extensible class hierarchy (`BaseEmbeddingGenerator` in `base_encoder.py`) encapsulating multi-repository shallow cloning, regex-driven boilerplate elimination, task instruction prefixing, and highly concentrated table optimization.
 
 ---
 
@@ -80,15 +80,39 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Execute parallel multi-threaded batch builds triggering your desired model subclass layer:
+Execute multi-threaded batch builds triggering your desired model subclass layer:
 
 ```bash
-# Rebuild highly concentrated Nomic repository matrices stably (max_workers=2)
-python3 src/generator/build_vector_databases.py --model nomic
+# Rebuild nomic repository matrices
+python3 src/embeddings_generator/build_vector_databases.py --model nomic
 
-# Rebuild high-fidelity Gemma documentation layers
-python3 src/generator/build_vector_databases.py --model gemma
+# Rebuild gemma documentation layers
+python3 src/embeddings_generator/build_vector_databases.py --model gemma
 ```
+
+### **Build Statistics and Reporting**
+
+At the end of each build, the script prints a formatted summary table to `stdout` and writes a detailed report to `embeddings/<model_name>/build_stats.json`.
+
+Stats tracked include:
+- Total execution duration.
+- Number of files processed per repository.
+- Number of chunks and embeddings generated.
+- Total folder size of database tables on disk.
+
+### **Robust Connection Failover**
+
+The generator script implements an automatic retry loop (5 attempts with a 3-second backoff sleep) inside API vector queries. If the local Ollama service drops offline or experiences temporary resource throttling, the builder will safely recover and resume without crashing.
+
+### **Incremental Git Workflow**
+
+When updating repositories in CI/CD pipelines or locally:
+1. Run the database incrementally:
+   ```bash
+   python3 src/embeddings_generator/build_vector_databases.py --model nomic --incremental
+   ```
+2. The script calculates the diff between the previous build commit and `HEAD`, index-updates only modified/deleted files, and prints a **Recommended Git Commit Message** summarizing the sync details and files changed.
+3. Commit and push the database files using the recommended message.
 
 ---
 

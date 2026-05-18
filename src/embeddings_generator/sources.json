@@ -1,0 +1,166 @@
+{
+  "repositories": [
+    {
+      "name": "ucp-mcp",
+      "type": "git",
+      "url": "https://github.com/MitkoDeyanovMitev/ucp-mcp.git",
+      "branch": "main",
+      "path": null,
+      "include": [
+        "src/**/*.py",
+        "tests/**/*.py",
+        "README.md"
+      ],
+      "exclude": [
+        "**/__pycache__/**",
+        "**/.venv/**"
+      ],
+      "enabled": true,
+      "last_commit": {
+        "nomic": "a20cf362e157d00b8a4c962a4dced2a8d4eb0562",
+        "gemma": "eda171dfc6fe82752561a6b7fb18646e5d34f3d5"
+      }
+    },
+    {
+      "name": "ucp",
+      "type": "git",
+      "url": "https://github.com/Universal-Commerce-Protocol/ucp.git",
+      "branch": "gh-pages",
+      "path": null,
+      "include": [
+        "**/*.md",
+        "**/*.html",
+        "**/*.txt",
+        "**/*.json"
+      ],
+      "exclude": [
+        "**/assets/**",
+        "**/stylesheets/**",
+        "**/javascripts/**",
+        "**/search/**",
+        "**/*.min.js",
+        "**/*.min.css",
+        "**/sitemap.xml"
+      ],
+      "enabled": true,
+      "last_commit": {
+        "nomic": "bd70cfd15e5941279f5d574a4511b9ea87c7e87f",
+        "gemma": "bd70cfd15e5941279f5d574a4511b9ea87c7e87f"
+      }
+    },
+    {
+      "name": "samples",
+      "type": "git",
+      "url": "https://github.com/Universal-Commerce-Protocol/samples.git",
+      "branch": "main",
+      "path": null,
+      "include": [
+        "**/*.js",
+        "**/*.py",
+        "**/*.ts",
+        "**/*.md",
+        "**/*.json"
+      ],
+      "exclude": [
+        "**/node_modules/**",
+        "**/.venv/**",
+        "**/dist/**",
+        "**/build/**"
+      ],
+      "enabled": true,
+      "last_commit": {
+        "nomic": "e0c28e14c63a3dfb4ad077906811968aaea0e6fd",
+        "gemma": "e0c28e14c63a3dfb4ad077906811968aaea0e6fd"
+      }
+    },
+    {
+      "name": "python-sdk",
+      "type": "git",
+      "url": "https://github.com/Universal-Commerce-Protocol/python-sdk.git",
+      "branch": "main",
+      "path": null,
+      "include": [
+        "**/*.py",
+        "**/*.md"
+      ],
+      "exclude": [
+        "**/tests/**",
+        "**/venv/**",
+        "**/*.test.py"
+      ],
+      "enabled": true,
+      "last_commit": {
+        "nomic": "c176b8eea44ad151228d9420b1e4085cbfbd159d",
+        "gemma": "c176b8eea44ad151228d9420b1e4085cbfbd159d"
+      }
+    },
+    {
+      "name": "js-sdk",
+      "type": "git",
+      "url": "https://github.com/Universal-Commerce-Protocol/js-sdk.git",
+      "branch": "main",
+      "path": null,
+      "include": [
+        "**/*.js",
+        "**/*.ts",
+        "**/*.md"
+      ],
+      "exclude": [
+        "**/node_modules/**",
+        "**/test/**",
+        "**/*.test.ts",
+        "**/dist/**"
+      ],
+      "enabled": true,
+      "last_commit": {
+        "nomic": "229cc3126735ec0b518b3d71bbb1a7ef82a02d2a",
+        "gemma": "229cc3126735ec0b518b3d71bbb1a7ef82a02d2a"
+      }
+    },
+    {
+      "name": "conformance",
+      "type": "git",
+      "url": "https://github.com/Universal-Commerce-Protocol/conformance.git",
+      "branch": "main",
+      "path": null,
+      "include": [
+        "**/*.md",
+        "**/*.json",
+        "**/*.yaml",
+        "**/*.yml"
+      ],
+      "exclude": [
+        "**/test_data/**",
+        "**/.github/**"
+      ],
+      "enabled": true,
+      "last_commit": {
+        "nomic": "6f6b2c524e6f9f216792feca0ef0550bdebc8762",
+        "gemma": "6f6b2c524e6f9f216792feca0ef0550bdebc8762"
+      }
+    },
+    {
+      "name": "ucp-schema",
+      "type": "git",
+      "url": "https://github.com/Universal-Commerce-Protocol/ucp-schema.git",
+      "branch": "main",
+      "path": null,
+      "include": [
+        "**/*.json",
+        "**/*.yaml",
+        "**/*.yml",
+        "**/*.md"
+      ],
+      "exclude": [
+        "**/.github/**",
+        "**/tests/**",
+        "**/*.example.json"
+      ],
+      "enabled": true,
+      "last_commit": {
+        "nomic": "6efbd13155ca2932f14c5d5c54a3c6405da7a8be",
+        "gemma": "6efbd13155ca2932f14c5d5c54a3c6405da7a8be"
+      }
+    }
+  ]
+}

@@ -8,7 +8,7 @@ import time
 def run_query(model: str, query: str):
     base_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
     client_script = os.path.join(
-        base_root, "src", "generator", "lance_search_client.py"
+        base_root, "src", "embeddings_generator", "lance_search_client.py"
     )
     python_bin = os.path.join(base_root, ".venv", "bin", "python3")
 
