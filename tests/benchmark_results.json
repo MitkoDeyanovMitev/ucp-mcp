@@ -1,7 +1,7 @@
 {
   "storage_sizes_mb": {
-    "gemma": 274.66,
-    "nomic": 32.09
+    "gemma": 43.09,
+    "nomic": 23.14
   },
   "evaluations": [
     {
@@ -9,15 +9,15 @@
       "query": "what capabilities does UCP have ?",
       "results": {
         "gemma": {
-          "latency_s": 2.29,
+          "latency_s": 1.41,
           "chunks_returned": 10,
-          "top_distance": 0.878,
+          "top_distance": 0.741,
           "top_repo": "ucp",
-          "top_file": "specification/overview/index.md",
-          "snippet": "Repo: ucp | File: specification/overview/index.md | Chunk: 10 | Content: #### Response Capability Selection  Businesses **MUST** include in `ucp.capabilities` only the capabilities that are:  1. In th"
+          "top_file": "documentation/core-concepts/index.md",
+          "snippet": "Repo: ucp | File: documentation/core-concepts/index.md | Chunk: 5 | Content: ### Capabilities  Capabilities are standalone, independently versioned features that a business declares it supports. They "
         },
         "nomic": {
-          "latency_s": 1.46,
+          "latency_s": 0.92,
           "chunks_returned": 10,
           "top_distance": 258.525,
           "top_repo": "ucp",
@@ -31,15 +31,15 @@
       "query": "how do I create a shopping cart and add item quantities ?",
       "results": {
         "gemma": {
-          "latency_s": 0.93,
+          "latency_s": 0.95,
           "chunks_returned": 10,
-          "top_distance": 0.992,
+          "top_distance": 0.936,
           "top_repo": "ucp",
-          "top_file": "specification/cart-mcp/index.md",
-          "snippet": "Repo: ucp | File: specification/cart-mcp/index.md | Chunk: 2 | Content: ### `create_cart`  Maps to the [Create Cart](http://ucp.dev/2026-04-08/specification/cart/#create-cart) operation.  #### Input S"
+          "top_file": "draft/specification/cart/index.md",
+          "snippet": "Repo: ucp | File: draft/specification/cart/index.md | Chunk: 15 | Content: ### Line Item  #### Line Item Create Request  | Name     | Type                                         | Required | Descript"
         },
         "nomic": {
-          "latency_s": 0.92,
+          "latency_s": 0.9,
           "chunks_returned": 10,
           "top_distance": 227.663,
           "top_repo": "ucp",
@@ -53,20 +53,20 @@
       "query": "what are the possible status states during a checkout session flow ?",
       "results": {
         "gemma": {
-          "latency_s": 0.94,
+          "latency_s": 0.9,
           "chunks_returned": 10,
-          "top_distance": 0.682,
+          "top_distance": 0.534,
           "top_repo": "ucp",
-          "top_file": "draft/specification/checkout/index.md",
-          "snippet": "Repo: ucp | File: draft/specification/checkout/index.md | Chunk: 2 | Content: ### Status Values  - **`incomplete`**: Checkout session is missing required information or has issues that need resolution"
+          "top_file": "2026-04-08/specification/checkout/index.md",
+          "snippet": "Repo: ucp | File: 2026-04-08/specification/checkout/index.md | Chunk: 2 | Content: ### Checkout Status Lifecycle  The checkout `status` field indicates the current phase of the session and determines "
         },
         "nomic": {
-          "latency_s": 0.88,
+          "latency_s": 0.9,
           "chunks_returned": 10,
-          "top_distance": 190.016,
-          "top_repo": "ucp",
-          "top_file": "specification/checkout/index.html",
-          "snippet": "Repo: ucp | File: specification/checkout/index.html | Chunk: 6 | Content: implementations URL lifetime typically tied to expires_at Checkout Permalink &para; A stateless URL that encodes checkout stat"
+          "top_distance": 189.885,
+          "top_repo": "samples",
+          "top_file": "a2a/docs/04-commerce-flows.md",
+          "snippet": "Repo: samples | File: a2a/docs/04-commerce-flows.md | Chunk: 1 | Content: # Commerce Flows  ## TL;DR  - **Checkout states**: `incomplete` \u2192 `ready_for_complete` \u2192 `completed` - **Payment flow**: Selec"
         }
       }
     },
@@ -75,15 +75,15 @@
       "query": "how to configure selected payment instruments and billing addresses ?",
       "results": {
         "gemma": {
-          "latency_s": 0.94,
+          "latency_s": 0.92,
           "chunks_returned": 10,
-          "top_distance": 0.878,
+          "top_distance": 0.921,
           "top_repo": "ucp",
-          "top_file": "2026-04-08/specification/embedded-checkout/index.md",
-          "snippet": "Repo: ucp | File: 2026-04-08/specification/embedded-checkout/index.md | Chunk: 26 | Content: #### Selected Payment Instrument  A payment instrument with selection state.  | Name            | Type    |"
+          "top_file": "2026-01-11/specification/embedded-checkout/index.html",
+          "snippet": "Repo: ucp | File: 2026-01-11/specification/embedded-checkout/index.html | Chunk: 33 | Content: igurations that define how payment instruments can be collected. Each handler specifies a tokenization or"
         },
         "nomic": {
-          "latency_s": 0.91,
+          "latency_s": 0.9,
           "chunks_returned": 10,
           "top_distance": 215.194,
           "top_repo": "ucp",
@@ -97,20 +97,20 @@
       "query": "how does the protocol evaluate available fulfillment destination options ?",
       "results": {
         "gemma": {
-          "latency_s": 0.93,
+          "latency_s": 0.92,
           "chunks_returned": 10,
           "top_distance": 0.826,
           "top_repo": "ucp",
-          "top_file": "draft/specification/fulfillment/index.md",
-          "snippet": "Repo: ucp | File: draft/specification/fulfillment/index.md | Chunk: 2 | Content: #### Fulfillment Method  | Name                    | Type                                                              "
+          "top_file": "2026-01-23/specification/fulfillment/index.md",
+          "snippet": "Repo: ucp | File: 2026-01-23/specification/fulfillment/index.md | Chunk: 5 | Content: | destinations            | Array\\[[Fulfillment Destination](/2026-01-23/specification/fulfillment/#fulfillment-de"
         },
         "nomic": {
-          "latency_s": 0.92,
+          "latency_s": 0.88,
           "chunks_returned": 10,
-          "top_distance": 193.362,
+          "top_distance": 193.629,
           "top_repo": "ucp",
-          "top_file": "latest/specification/fulfillment/index.md",
-          "snippet": "Repo: ucp | File: latest/specification/fulfillment/index.md | Chunk: 8 | Content: ### Platform Responsibilities  Platforms **SHOULD** treat fulfillment as a generic, renderable structure:  - Render ea"
+          "top_file": "2026-04-08/specification/reference/index.html",
+          "snippet": "Repo: ucp | File: 2026-04-08/specification/reference/index.html | Chunk: 15 | Content: ting options. Agent sets selected_option_id on groups to choose shipping method. Fulfillment Available Method &pa"
         }
       }
     }

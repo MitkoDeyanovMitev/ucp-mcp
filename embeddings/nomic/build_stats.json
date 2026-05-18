@@ -1,0 +1,10 @@
+{
+  "model": "nomic",
+  "mode": "INCREMENTAL",
+  "start_time": "2026-05-18 07:33:24",
+  "repositories": {},
+  "total_files_indexed": 0,
+  "total_chunks_extracted": 0,
+  "total_duration_seconds": 3.89,
+  "total_database_size_bytes": 24410750
+}
