@@ -1,0 +1,88 @@
+{
+  "model": "gemma",
+  "mode": "FULL",
+  "start_time": "2026-05-18 11:25:46",
+  "repositories": {
+    "ucp-mcp": {
+      "files_indexed": 10,
+      "chunks_extracted": 53,
+      "vector_calculation_duration_seconds": 5.923979043960571,
+      "table_size_bytes": 893756,
+      "previous_commit": null,
+      "current_commit": "0877b7103d184cca6efb8f7ff95d8a779c5b4f27",
+      "files_changed_in_diff": [
+        "FULL_REBUILD"
+      ]
+    },
+    "ucp": {
+      "files_indexed": 523,
+      "chunks_extracted": 9614,
+      "vector_calculation_duration_seconds": 823.1810266971588,
+      "table_size_bytes": 124140220,
+      "previous_commit": null,
+      "current_commit": "bd70cfd15e5941279f5d574a4511b9ea87c7e87f",
+      "files_changed_in_diff": [
+        "FULL_REBUILD"
+      ]
+    },
+    "samples": {
+      "files_indexed": 86,
+      "chunks_extracted": 608,
+      "vector_calculation_duration_seconds": 77.55702781677246,
+      "table_size_bytes": 7901279,
+      "previous_commit": null,
+      "current_commit": "e0c28e14c63a3dfb4ad077906811968aaea0e6fd",
+      "files_changed_in_diff": [
+        "FULL_REBUILD"
+      ]
+    },
+    "python-sdk": {
+      "files_indexed": 90,
+      "chunks_extracted": 151,
+      "vector_calculation_duration_seconds": 11.618809938430786,
+      "table_size_bytes": 1839429,
+      "previous_commit": null,
+      "current_commit": "c176b8eea44ad151228d9420b1e4085cbfbd159d",
+      "files_changed_in_diff": [
+        "FULL_REBUILD"
+      ]
+    },
+    "js-sdk": {
+      "files_indexed": 4,
+      "chunks_extracted": 30,
+      "vector_calculation_duration_seconds": 2.387117862701416,
+      "table_size_bytes": 399213,
+      "previous_commit": null,
+      "current_commit": "229cc3126735ec0b518b3d71bbb1a7ef82a02d2a",
+      "files_changed_in_diff": [
+        "FULL_REBUILD"
+      ]
+    },
+    "conformance": {
+      "files_indexed": 4,
+      "chunks_extracted": 6,
+      "vector_calculation_duration_seconds": 0.6455910205841064,
+      "table_size_bytes": 80467,
+      "previous_commit": null,
+      "current_commit": "6f6b2c524e6f9f216792feca0ef0550bdebc8762",
+      "files_changed_in_diff": [
+        "FULL_REBUILD"
+      ]
+    },
+    "ucp-schema": {
+      "files_indexed": 13,
+      "chunks_extracted": 40,
+      "vector_calculation_duration_seconds": 3.10764741897583,
+      "table_size_bytes": 495406,
+      "previous_commit": null,
+      "current_commit": "6efbd13155ca2932f14c5d5c54a3c6405da7a8be",
+      "files_changed_in_diff": [
+        "FULL_REBUILD"
+      ]
+    }
+  },
+  "total_files_indexed": 730,
+  "total_chunks_extracted": 10502,
+  "total_duration_seconds": 931.35,
+  "total_database_size_bytes": 135752421
+}
