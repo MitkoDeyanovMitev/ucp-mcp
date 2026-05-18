@@ -11,7 +11,7 @@
 Following the retirement of mock string-length baselines, this document provides an exhaustive side-by-side evaluation of our two active high-fidelity vector storage backends. By executing concurrent nearest-neighbor vector queries across specific programmatic operations, we contrast real-time spatial performance against localized persistence requirements.
 
 > [!IMPORTANT]
-> **Strategic Winner**: **`nomic`** emerges as the superior, highly scalable candidate for production rollouts. By operating with an **8,192-token context capacity** combined with native task prompt instruction tagging (`search_document:` / `search_query:`), it condenses the entire multi-repository catalog down to a persistent footprint of just **32.09 MB**, while consistently evaluating spatial lookups faster than `gemma`.
+> **Primary High-Fidelity Model**: **`gemma`** serves as our primary conceptual embedding layer. By leveraging Google's Gemma model architecture, it yields exceptionally dense semantic representations suited for abstract protocol concept lookups, while **`nomic`** serves as a lightweight, faster alternative for code-syntax structures.
 
 ---
 
@@ -21,8 +21,8 @@ Pre-compiling raw numerical float vectors into Apache Arrow database formats gua
 
 | Vector Profile         | Target Dimensions | Rebuild Generation Time | Disk Storage Capacity | Batch Concurrency Layer                        |
 | :--------------------- | :---------------- | :---------------------- | :-------------------- | :--------------------------------------------- |
-| **`gemma`**            | 768               | **21.5 minutes**        | `63.02 MB`            | Multi-threaded array pooling (`max_workers=4`) |
-| **`nomic`** _(Winner)_ | 768               | **5.6 minutes**         | **`33.65 MB`**        | Multi-threaded array pooling (`max_workers=4`) |
+| **`gemma`** _(Primary)_| 768               | **21.5 minutes**        | `63.02 MB`            | Multi-threaded array pooling (`max_workers=4`) |
+| **`nomic`**            | 768               | **5.6 minutes**         | **`33.65 MB`**        | Multi-threaded array pooling (`max_workers=4`) |
 
 > [!TIP]
 > **Spatial Density & Formatting**: Gemma is configured with `chunk_size=1500` (generating 15,385 chunks) to comply with context length limits, while Nomic uses `chunk_size=4000` (generating 5,774 chunks). Since both models output identical `768` dimensions, the footprint difference is directly proportional to chunk counts, leaving both safely consolidated under GitHub's 100MB push limit.

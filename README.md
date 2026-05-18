@@ -15,11 +15,11 @@ To guarantee optimal retrieval speed and isolated scalability, vector tables are
 
 ```text
 ./embeddings/
-  ├── nomic/                        # Code-Syntax Optimized Database Root (768-Dim)
+  ├── gemma/                        # Deep Conceptual Database Root (768-Dim Native)
   │    ├── ucp.lance/               # Highly concentrated table for core protocol schemas
   │    ├── python-sdk.lance/        # Table for Python SDK frameworks
   │    └── js-sdk.lance/            # Table for TypeScript/Zod schemas
-  └── gemma/                        # Deep Conceptual Database Root (768-Dim Native)
+  └── nomic/                        # Code-Syntax Optimized Database Root (768-Dim)
        └── ...
 ```
 
@@ -38,8 +38,8 @@ To execute searches client-side natively using free-text query strings, the MCP 
 >
 > ```bash
 > # Pull target weights locally before executing queries inside your IDE
-> ollama pull nomic-embed-text
 > ollama pull embeddinggemma
+> ollama pull nomic-embed-text
 > ```
 
 #### **Graceful Troubleshooting**
@@ -83,11 +83,11 @@ pip install -r requirements.txt
 Execute multi-threaded batch builds triggering your desired model subclass layer:
 
 ```bash
-# Rebuild nomic repository matrices
-python3 src/embeddings_generator/build_vector_databases.py --model nomic
-
 # Rebuild gemma documentation layers
 python3 src/embeddings_generator/build_vector_databases.py --model gemma
+
+# Rebuild nomic repository matrices
+python3 src/embeddings_generator/build_vector_databases.py --model nomic
 ```
 
 ### **Build Statistics and Reporting**
@@ -109,7 +109,7 @@ The generator script implements an automatic retry loop (5 attempts with a 3-sec
 When updating repositories in CI/CD pipelines or locally:
 1. Run the database incrementally:
    ```bash
-   python3 src/embeddings_generator/build_vector_databases.py --model nomic --incremental
+   python3 src/embeddings_generator/build_vector_databases.py --model gemma --incremental
    ```
 2. The script calculates the diff between the previous build commit and `HEAD`, index-updates only modified/deleted files, and prints a **Recommended Git Commit Message** summarizing the sync details and files changed.
 3. Commit and push the database files using the recommended message.
@@ -139,4 +139,4 @@ Executes the standard server protocol pure Python engine natively:
 ## 🎯 Exposed MCP Capabilities
 
 - **Prompts:** Discovers `migration-and-integration-guide` dynamically injecting integration instruction sets sourced from `src/mcp/skills.md`.
-- **Tools:** Exposes `query_ucp_context` accepting natural language search strings (`query_text`) and target model layers (`model: "nomic" | "gemma"`). At runtime, queries compute exact spatial coordinates via local engine execution to return globally ranked nearest-neighbor documentation chunks.
+- **Tools:** Exposes `query_ucp_context` accepting natural language search strings (`query_text`) and target model layers (`model: "gemma" | "nomic"`). At runtime, queries compute exact spatial coordinates via local engine execution to return globally ranked nearest-neighbor documentation chunks.

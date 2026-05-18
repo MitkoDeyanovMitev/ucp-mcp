@@ -56,3 +56,6 @@ run-data/
 
 # System tracking files
 .DS_Store
+
+# Local compiled vector database tables
+/embeddings/
